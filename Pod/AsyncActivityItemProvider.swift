@@ -14,7 +14,7 @@ public typealias CancellationHandler = (operation: AsyncActivityItemProviderOper
 
 
 public enum ProgressControllerMode {
-    case Enabled
+    case Enabled(controllerTitle: String, showingProgress: Bool, cancellable: Bool)
     case Disabled
 }
 
@@ -35,13 +35,12 @@ final public class AsyncActivityItemProvider {
     let placeholderItem: AnyObject
     let progressControllerMode: ProgressControllerMode
 
-    public init(placeholderItem: AnyObject, provideItemHandler: ProvideItemHandler, cancellationHandler: CancellationHandler? = nil, progressControllerMode: ProgressControllerMode = .Enabled) {
+    public init(placeholderItem: AnyObject, provideItemHandler: ProvideItemHandler, cancellationHandler: CancellationHandler? = nil, progressControllerMode: ProgressControllerMode = .Enabled(controllerTitle: "Preparing...", showingProgress: true, cancellable: true)) {
         self.placeholderItem = placeholderItem
         self.provideItemHandler = provideItemHandler
         self.cancellationHandler = cancellationHandler
         self.progressControllerMode = progressControllerMode
     }
-
 }
 
 

@@ -52,11 +52,23 @@ final class AsyncUIActivityItemProvider: UIActivityItemProvider {
     required init(itemProviderOperation: ActivityItemProviderOperation) {
         self.itemProviderOperation = itemProviderOperation
         super.init(placeholderItem: itemProviderOperation.placeholderItem)
-        if itemProviderOperation.progressControllerMode == .Disabled {
+        switch itemProviderOperation.progressControllerMode {
+        case .Enabled(let controllerTitle, let showingProgress, let cancellable):
+            progressController?.title = controllerTitle
+            if showingProgress {
+                progressController?.message = " "
+            }
+            if cancellable {
+                let alertAction = UIAlertAction(title: "Cancel", style: .Cancel) {
+                    (action) -> Void in
+                    self.selfCancelled = true
+                }
+                progressController?.addAction(alertAction)
+            }
+        case .Disabled:
             progressController = nil
         }
     }
-
 
     private var selfCancelled = false {
         didSet {
@@ -67,15 +79,8 @@ final class AsyncUIActivityItemProvider: UIActivityItemProvider {
     }
 
     lazy var progressController: UIAlertController? = {
-        [unowned self] in
-        let alertController = UIAlertController(title: "Preparing...", message: " ", preferredStyle: .Alert)
-        let alertAction = UIAlertAction(title: "Cancel", style: .Cancel) {
-            (action) -> Void in
-            self.selfCancelled = true
-        }
-        alertController.addAction(alertAction)
-        return alertController
-        }()
+        return UIAlertController(title: nil, message: nil, preferredStyle: .Alert)
+    }()
 
     override func item() -> AnyObject {
 
@@ -147,7 +152,7 @@ public class ActivityItemProviderOperation: AsyncOperation, ProgressUpdating, As
         }
     }
 
-    public init(placeholderItem: AnyObject, progressControllerMode: ProgressControllerMode = .Enabled, provideItemHandler: ProvideItemHandler? = nil, cancellationHandler: CancellationHandler? = nil) {
+    public init(placeholderItem: AnyObject, progressControllerMode: ProgressControllerMode = .Enabled(controllerTitle: "Preparing...", showingProgress: true, cancellable: true), provideItemHandler: ProvideItemHandler? = nil, cancellationHandler: CancellationHandler? = nil) {
         self.placeholderItem = placeholderItem
         self.progressControllerMode = progressControllerMode
         self.provideItemHandler = provideItemHandler

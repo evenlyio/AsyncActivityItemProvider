@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         // create an item provider with the handlers and a placeholder item
         // Indicate whether the progress controller should be shown
 
-        let asyncActivityItemProvider = AsyncActivityItemProvider(placeholderItem: "Blah", provideItemHandler: provideItemHandler, cancellationHandler: cancellationHandler, progressControllerMode: .Enabled)
+        let asyncActivityItemProvider = AsyncActivityItemProvider(placeholderItem: "Blah", provideItemHandler: provideItemHandler, cancellationHandler: cancellationHandler, progressControllerMode: .Enabled(controllerTitle: "Wird vorbereitet...", showingProgress: false, cancellable: false))
 
         // create the activityViewController with the asyncActivityItemProvider, then present it
         let activityViewController = UIActivityViewController(asyncItemProvider: asyncActivityItemProvider, activityItems: nil, applicationActivities: nil)
