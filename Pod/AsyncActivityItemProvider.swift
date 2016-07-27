@@ -50,7 +50,7 @@ public extension UIActivityViewController {
     public convenience init(asyncItemProviderOperation: ActivityItemProviderOperation, activityItems: [AnyObject]? = nil, applicationActivities: [UIActivity]? = nil) {
         var allActivityItems: [AnyObject] = [AsyncUIActivityItemProvider(itemProviderOperation: asyncItemProviderOperation)]
         if let activityItems = activityItems {
-            allActivityItems.extend(activityItems)
+            allActivityItems.appendContentsOf(activityItems)
         }
         
         self.init(activityItems: allActivityItems, applicationActivities: applicationActivities)
@@ -59,7 +59,7 @@ public extension UIActivityViewController {
     public convenience init(asyncItemProvider: AsyncActivityItemProvider, activityItems: [AnyObject]? = nil, applicationActivities: [UIActivity]? = nil) {
         var allActivityItems: [AnyObject] = [AsyncUIActivityItemProvider(itemProvider: asyncItemProvider)]
         if let activityItems = activityItems {
-            allActivityItems.extend(activityItems)
+            allActivityItems.appendContentsOf(activityItems)
         }
 
         self.init(activityItems: allActivityItems, applicationActivities: applicationActivities)

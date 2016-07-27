@@ -104,7 +104,7 @@ final class AsyncUIActivityItemProvider: UIActivityItemProvider {
             let dismissViewControllerOperation = DismissViewControllerOperation(presentedViewController: progressController)
             itemProviderOperation.addDependency(presentViewControllerOperation)
             dismissViewControllerOperation.addDependency(itemProviderOperation)
-            operations.extend([presentViewControllerOperation, dismissViewControllerOperation])
+            operations.appendContentsOf([presentViewControllerOperation, dismissViewControllerOperation])
         }
 
         operationQueue?.addOperations(operations, waitUntilFinished: true)

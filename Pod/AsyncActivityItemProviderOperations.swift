@@ -41,7 +41,7 @@ final class GuaranteeAppIsInForegroundOperation: AsyncOperation {
         if cancelled || UIApplication.sharedApplication().applicationState == .Active {
             finish()
         } else {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive"), name: UIApplicationDidBecomeActiveNotification, object: UIApplication.sharedApplication())
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GuaranteeAppIsInForegroundOperation.applicationDidBecomeActive), name: UIApplicationDidBecomeActiveNotification, object: UIApplication.sharedApplication())
         }
     }
 
